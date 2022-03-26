@@ -8,13 +8,14 @@ import (
 	"io/ioutil"
 )
 
+var a string
 var BotId string
 var goBot *discordgo.Session
 var qAndA *qAndAStruct
 
 type qAndAStruct struct {
-	Question string `json:"Question"`
-	Answer   string `json:"Answer"`
+	Question string `json:"Which command enables you to redirect stdout and stderr to a file?"`
+	Answer   string `json:"> filename 2>&1"`
 }
 
 func Start() {
@@ -47,23 +48,32 @@ func messageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 	if m.Content == "!question" {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "pong")
+		quest, ans := getQuestion()
+		_, _ = s.ChannelMessageSend(m.ChannelID, quest)
+		a = ans
+	}
+
+	if m.Content == "!answer" {
+		_, _ = s.ChannelMessageSend(m.ChannelID, a)
 	}
 }
 
-func getQuestion() {
-	fmt.Println("Reading question file...")
-	file, err := ioutil.ReadFile("C:/Users/grace/GolandProjects/discordBot/bot/questions.json")
+func getQuestion() (string, string) {
+	jsonFile, err := ioutil.ReadFile("C:/Users/grace/GolandProjects/discordBot/bot/questions.json")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	err = json.Unmarshal(file, &qAndA)
-
+	m := map[string]string{}
+	err = json.Unmarshal(jsonFile, &m)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
-	Question = qAndA.Question
-	Answer = qAndA.Answer
-
+	var quest string
+	var ans string
+	for q, a := range m { //a := range m {
+		quest = q
+		ans = a
+		break
+	}
+	return quest, ans
 }

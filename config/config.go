@@ -14,7 +14,7 @@ var (
 )
 
 type configStruct struct {
-	Token     string `json: "Token"`
+	Token     string `json:"Token"`
 	BotPrefix string `json:"BotPrefix"`
 }
 
