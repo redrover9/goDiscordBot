@@ -14,8 +14,8 @@ var goBot *discordgo.Session
 var qAndA *qAndAStruct
 
 type qAndAStruct struct {
-	Question string `json:"Which command enables you to redirect stdout and stderr to a file?"`
-	Answer   string `json:"> filename 2>&1"`
+	Question string `json:"Question"`
+	Answer   string `json:"Answer"`
 }
 
 func Start() {
