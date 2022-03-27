@@ -70,7 +70,7 @@ func getQuestion() (string, string) {
 	}
 	var quest string
 	var ans string
-	for q, a := range m { //a := range m {
+	for q, a := range m {
 		quest = q
 		ans = a
 		break
